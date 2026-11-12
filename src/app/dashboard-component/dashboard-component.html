@@ -1,0 +1,422 @@
+
+<div class="dashboard">
+
+  <!-- CABEÇALHO -->
+  <header class="topbar">
+    <div class="container-fluid px-4 px-xl-5">
+      <div class="topbar-content">
+
+        <div class="brand">
+          <div class="brand-symbol">M</div>
+          <div>
+            <span class="brand-name">Museu da Música</span>
+            <span class="brand-system">GESTÃO DE ACERVO</span>
+          </div>
+        </div>
+
+        <nav class="main-nav">
+          <a class="nav-link active" routerLink="/dashboard">Visão geral</a>
+          <a class="nav-link" href="#acervo">Acervo</a>
+          <a routerLink="/movimentacoes" class="nav-link">
+  Movimentações
+</a>
+          <a class="nav-link" href="#exposicoes">Exposições</a>
+          <a class="nav-link" href="#relatorios">Relatórios</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="profile">
+            <div class="profile-avatar">
+              {{ usuario.nome.charAt(0).toUpperCase() }}
+            </div>
+
+            <div class="usuario-info">
+              <strong>{{ usuario.nome }}</strong>
+              <small>{{ usuario.cargo }}</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="container-fluid px-4 px-xl-5">
+
+    <!-- APRESENTAÇÃO -->
+    <section class="hero-section">
+      <div class="hero-copy">
+        <span class="eyebrow">
+          <span class="eyebrow-line"></span>
+          PAINEL DE CONTROLE
+        </span>
+
+        <h1>
+          Visão geral do<br>
+          <span>acervo</span>
+        </h1>
+
+        <p>
+          Acompanhe o patrimônio, as movimentações e a
+          localização das peças do Museu da Música.
+        </p>
+
+        <p class="hero-greeting">
+          {{ saudacao }}, {{ usuario.nome }}.
+        </p>
+      </div>
+
+      <div class="hero-date">
+        <span>{{ dataAtual | date:'EEEE':'':'pt-BR' | uppercase }}</span>
+        <strong>{{ dataAtual | date:'dd' }}</strong>
+        <span>{{ dataAtual | date:'MMMM':'':'pt-BR' | uppercase }} · {{ dataAtual | date:'yyyy' }}</span>
+      </div>
+    </section>
+
+    <!-- INDICADORES DINÂMICOS -->
+    <section class="metrics-grid" id="acervo">
+
+      <article class="metric-card metric-main">
+        <div class="metric-top">
+          <span class="metric-label">ACERVO TOTAL</span>
+          <span class="metric-icon">♫</span>
+        </div>
+
+        <div class="metric-number">{{ totalAcervo }}</div>
+
+        <div class="metric-bottom">
+          <span class="gold-dot"></span>
+          Peças cadastradas
+        </div>
+      </article>
+
+      <article class="metric-card">
+        <div class="metric-top">
+          <span class="metric-label">NO MUSEU</span>
+          <span class="metric-icon blue">⌂</span>
+        </div>
+
+        <div class="metric-number">{{ totalNoMuseu }}</div>
+
+        <div class="metric-bottom">
+          {{ percentualNoMuseu }}% do acervo
+        </div>
+      </article>
+
+      <article class="metric-card metric-gold">
+        <div class="metric-top">
+          <span class="metric-label">FORA DO MUSEU</span>
+          <span class="metric-icon">↗</span>
+        </div>
+
+        <div class="metric-number">{{ totalForaMuseu }}</div>
+
+        <div class="metric-bottom">
+          {{ percentualForaMuseu }}% em movimentação
+        </div>
+      </article>
+
+      <article class="metric-card">
+        <div class="metric-top">
+          <span class="metric-label">EXPOSIÇÕES ATIVAS</span>
+          <span class="metric-icon blue">◫</span>
+        </div>
+
+        <div class="metric-number">{{ totalExposicoes }}</div>
+
+        <div class="metric-bottom">
+          Exposições cadastradas
+        </div>
+      </article>
+
+    </section>
+
+    <!-- ACERVO -->
+    <section class="panel acervo-section mb-4">
+
+      <div class="panel-header">
+        <div>
+          <span class="panel-kicker">PATRIMÔNIO MUSICAL</span>
+          <h2>Itens do acervo</h2>
+          <p class="text-secondary mb-0">
+            Consulte e cadastre as peças do museu.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="mostrarFormulario = !mostrarFormulario"
+        >
+          <i class="bi bi-plus-lg me-2"></i>
+          Novo item
+        </button>
+      </div>
+
+      <!-- FORMULÁRIO -->
+      
+<!-- Popup de cadastro -->
+<div
+  class="modal-overlay"
+  *ngIf="mostrarFormulario"
+  (click)="cancelarCadastro()"
+>
+  <div
+    class="cadastro-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="tituloCadastro"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="modal-cabecalho">
+      <div>
+        <span class="modal-etiqueta">ACERVO DO MUSEU</span>
+        <h2 id="tituloCadastro">Cadastrar peça</h2>
+        <p>Preencha as informações da peça para registrá-la no acervo.</p>
+      </div>
+
+      <button
+        type="button"
+        class="modal-fechar"
+        aria-label="Fechar"
+        (click)="cancelarCadastro()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <form #formItem="ngForm" (ngSubmit)="adicionarItem()">
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <label for="nomeItem" class="form-label">Nome *</label>
+          <input
+            id="nomeItem"
+            name="nome"
+            class="form-control"
+            [(ngModel)]="novoItem.nome"
+            placeholder="Nome da peça"
+            required
+          >
+        </div>
+
+        <div class="col-md-6">
+          <label for="categoriaItem" class="form-label">Categoria *</label>
+          <select
+            id="categoriaItem"
+            name="categoria"
+            class="form-select"
+            [(ngModel)]="novoItem.categoria"
+            required
+          >
+            <option value="" disabled>Selecione</option>
+            <option value="Instrumento de corda">Instrumento de corda</option>
+            <option value="Instrumento de sopro">Instrumento de sopro</option>
+            <option value="Instrumento de percussão">Instrumento de percussão</option>
+            <option value="Documento histórico">Documento histórico</option>
+            <option value="Partitura">Partitura</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="localItem" class="form-label">Localização *</label>
+          <input
+            id="localItem"
+            name="localizacao"
+            class="form-control"
+            [(ngModel)]="novoItem.localizacao"
+            placeholder="Ex.: Sala de exposição"
+            required
+          >
+        </div>
+
+        <div class="col-md-6">
+          <label for="conservacaoItem" class="form-label">
+            Estado de conservação
+          </label>
+          <select
+            id="conservacaoItem"
+            name="conservacao"
+            class="form-select"
+            [(ngModel)]="novoItem.conservacao"
+          >
+            <option value="Excelente">Excelente</option>
+            <option value="Bom">Bom</option>
+            <option value="Regular">Regular</option>
+            <option value="Restauração necessária">Restauração necessária</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label for="descricaoItem" class="form-label">Descrição</label>
+          <textarea
+            id="descricaoItem"
+            name="descricao"
+            class="form-control"
+            rows="3"
+            [(ngModel)]="novoItem.descricao"
+            placeholder="Informações adicionais sobre a peça"
+          ></textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-acoes">
+        <span class="modal-nota">* Campos obrigatórios</span>
+
+        <div class="d-flex gap-2">
+          <button
+            type="button"
+            class="btn btn-light"
+            (click)="cancelarCadastro()"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="formItem.invalid"
+          >
+            <i class="bi bi-check2 me-2"></i>
+            Salvar peça
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+      <!-- ACERVO VAZIO -->
+      <div class="empty-state text-center py-5" *ngIf="itens.length === 0">
+        <div class="empty-icon mb-3">
+          <i class="bi bi-music-note-list"></i>
+        </div>
+
+        <h3>Nenhuma peça cadastrada</h3>
+        <p class="text-secondary">
+          O acervo ainda não possui itens cadastrados.
+          Comece adicionando a primeira peça.
+        </p>
+
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="mostrarFormulario = true"
+        >
+          Cadastrar primeira peça
+        </button>
+      </div>
+
+      <!-- LISTA REAL DE ITENS CADASTRADOS -->
+      <div class="row g-3 mt-2" *ngIf="itens.length > 0">
+
+        <div class="col-12" *ngFor="let item of itens">
+          <article class="item-card">
+            <div class="item-icon">
+              <i class="bi bi-music-note-beamed"></i>
+            </div>
+
+            <div class="item-details">
+              <h3>{{ item.nome }}</h3>
+
+              <span class="badge categoria-badge">
+                {{ item.categoria }}
+              </span>
+
+              <p class="mt-2 mb-1">
+                <i class="bi bi-geo-alt me-2"></i>
+                {{ item.localizacao }}
+              </p>
+
+              <p class="mb-1">
+                <strong>Conservação:</strong>
+                {{ item.conservacao }}
+              </p>
+
+              <p *ngIf="item.descricao" class="text-secondary mb-0">
+                {{ item.descricao }}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-sm"
+              title="Remover item"
+              aria-label="Remover item"
+              (click)="removerItem(item.id)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </article>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MOVIMENTAÇÕES: ESTADO VAZIO ATÉ SEREM IMPLEMENTADAS -->
+    <section class="panel movements-panel mb-4" id="movimentacoes">
+      <div class="panel-header">
+        <div>
+          <span class="panel-kicker">ACOMPANHAMENTO</span>
+          <h2>Movimentações recentes</h2>
+        </div>
+      </div>
+
+      <div class="empty-state text-center py-4">
+        <i class="bi bi-arrow-left-right fs-2"></i>
+        <p class="text-secondary mt-3 mb-0">
+          Nenhuma movimentação registrada.
+        </p>
+      </div>
+    </section>
+
+    <!-- EXPOSIÇÕES -->
+    <section class="panel mb-4" id="exposicoes">
+      <div class="panel-header">
+        <div>
+          <span class="panel-kicker">PROGRAMAÇÃO</span>
+          <h2>Exposições</h2>
+        </div>
+      </div>
+
+      <div class="empty-state text-center py-4">
+        <i class="bi bi-columns-gap fs-2"></i>
+        <p class="text-secondary mt-3 mb-0">
+          Nenhuma exposição cadastrada.
+        </p>
+      </div>
+    </section>
+
+    <!-- RELATÓRIOS -->
+    <section class="panel mb-4" id="relatorios">
+      <div class="panel-header">
+        <div>
+          <span class="panel-kicker">INFORMAÇÕES</span>
+          <h2>Relatórios</h2>
+        </div>
+      </div>
+
+      <p class="text-secondary mb-0">
+        Os relatórios estarão disponíveis quando os dados do acervo
+        e das movimentações estiverem integrados.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="dashboard-footer">
+    <div>
+      <strong>MUSEU DA MÚSICA DE ITU</strong>
+      <span> · Sistema de Gestão de Acervo</span>
+    </div>
+
+    <span>
+      Atualizado às {{ dataAtual | date:'HH:mm' }}
+    </span>
+  </footer>
+
+</div>

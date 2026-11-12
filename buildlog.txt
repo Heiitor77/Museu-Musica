@@ -1,0 +1,56 @@
+node.exe : ERROR J [Error]: NG02100
+No linha:1 caractere:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ERROR J [Error]: NG02100:String)     [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    at i2 (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:32:89068)
+    at e.transform (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:32:89731)
+    at tL (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:32:48032)
+    at df (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:32:48725)
+    at template (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:107:89507)
+    at NC (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:5:55784)
+    at LO (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:5:61290)
+    at R0 (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:5:62506)
+    at WC (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:5:62335)
+    at BO (file:///C:/Users/Aluno/museumusica/.angular/prerender-root/01042577-2ba0-467f-a440-70d0edc5de11/main.server.mjs:5:62268) {
+  code: 2100
+}
+[35mBrowser bundles[39m      
+[1mInitial chunk files[22m  [2m | [22m[1mNames[22m           [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mmain-ADKWVTKX.js[39m     [2m | [22m[2mmain[22m            [2m | [22m[36m418.61 kB[39m[2m | [22m               [36m93.96 kB[39m
+[32mstyles-X3HGNXRX.css[39m  [2m | [22m[2mstyles[22m          [2m | [22m[36m315.62 kB[39m[2m | [22m               [36m33.10 kB[39m
+[32mpolyfills-PZSJNBYU.js[39m[2m | [22m[2mpolyfills[22m       [2m | [22m[36m494 bytes[39m[2m | [22m              [36m494 bytes[39m
+
+[1m [22m                    [2m | [22m[1mInitial total[22m   [2m | [22m[1m[93m734.72 kB[39m[22m[2m | [22m              [1m127.55 kB[22m
+
+
+[35mServer bundles[39m       
+[1mInitial chunk files[22m  [2m | [22m[1mNames[22m           [2m | [22m [1mRaw size[22m
+[32mmain.server.mjs[39m      [2m | [22m[2mmain.server[22m     [2m | [22m[36m863.42 kB[39m[2m | [22m                       
+[32mserver.mjs[39m           [2m | [22m[2mserver[22m          [2m | [22m[36m822.70 kB[39m[2m | [22m                       
+[32mpolyfills.server.mjs[39m [2m | [22m[2mpolyfills.server[22m[2m | [22m[36m235.50 kB[39m[2m | [22m                       
+[32mchunk-ITOR7NUX.mjs[39m   [2m | [22m[2m-[22m               [2m | [22m  [36m1.38 kB[39m[2m | [22m                       
+[32mchunk-KYQQYI4M.mjs[39m   [2m | [22m[2m-[22m               [2m | [22m  [36m1.01 kB[39m[2m | [22m                       
+
+[1mLazy chunk files[22m     [2m | [22m[1mNames[22m           [2m | [22m [1mRaw size[22m
+[32mchunk-KUERU4XA.mjs[39m   [2m | [22m[2mxhr2[22m            [2m | [22m [36m12.17 kB[39m[2m | [22m                       
+[32mchunk-LYHAGGDF.mjs[39m   [2m | [22m[2mxhr2[22m            [2m | [22m [36m12.07 kB[39m[2m | [22m                       
+
+[35mPrerendered 3 static routes.[39m
+Application bundle generation failed. [13.005 seconds] - 2026-10-29T14:33:45.955Z
+
+[1m[33m[33m��� [43;33m[[43;30mWARNING[43;33m][0m [1mbundle initial exceeded maximum budget. Budget 500.00 kB was not met by 234.72 kB with a total of 734.72 kB.[0m
+
+
+[33m��� [43;33m[[43;30mWARNING[43;33m][0m [1mcss-inline-fonts:https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;500;600;700&display=swap exceeded maximum budget. Budget 20.00 kB was not met by 17.64 kB with a total of 37.64 kB.[0m
+
+
+[33m��� [43;33m[[43;30mWARNING[43;33m][0m [1mcss-inline-fonts:https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;500;600;700&display=swap exceeded maximum budget. Budget 20.00 kB was not met by 26.76 kB with a total of 46.76 kB.[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mcss-inline-fonts:https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;500;600;700&display=swap exceeded maximum budget. Budget 40.00 kB was not met by 6.76 kB with a total of 46.76 kB.[0m
+
+[39m[22m
+

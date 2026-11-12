@@ -1,0 +1,139 @@
+
+<div class="login-page container-fluid p-0">
+  <div class="row g-0 min-vh-100">
+
+    <!-- Painel de apresentação -->
+    <section class="col-lg-7 d-none d-lg-flex brand-panel">
+      <div class="brand-overlay"></div>
+
+      <div class="brand-content">
+        <div class="museum-brand">
+          <div class="brand-icon">
+            <i class="bi bi-music-note-beamed"></i>
+          </div>
+
+          <div>
+            <span class="brand-eyebrow">PATRIMÔNIO • CULTURA • HISTÓRIA</span>
+            <h1>Museu da<br />Música de Itu</h1>
+          </div>
+        </div>
+
+        <div class="brand-description">
+          <span class="gold-line"></span>
+          <p>
+            Preservando histórias, instrumentos e memórias
+            que atravessam gerações.
+          </p>
+        </div>
+
+        <div class="brand-footer">
+          <span>SISTEMA DE GESTÃO DO ACERVO</span>
+          <span>ITU · SÃO PAULO</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Painel de login -->
+    <main class="col-lg-5 col-12 login-panel">
+      <div class="login-container">
+
+        <!-- Marca para telas menores -->
+        <div class="mobile-brand d-lg-none">
+          <div class="mobile-brand-icon">
+            <i class="bi bi-music-note-beamed"></i>
+          </div>
+          <span>MUSEU DA MÚSICA DE ITU</span>
+        </div>
+
+        <div class="login-heading">
+          <span class="section-label">ÁREA RESTRITA</span>
+          <h2>Bem-vindo de volta.</h2>
+          <p>
+            Acesse sua conta para gerenciar o acervo
+            e acompanhar as atividades do museu.
+          </p>
+        </div>
+
+        <form class="login-form" (ngSubmit)="entrar()">
+
+          <div class="mb-4">
+            <label for="usuario" class="form-label">
+              Usuário
+            </label>
+
+            <div class="input-wrapper">
+              <i class="bi bi-person input-icon"></i>
+              <input
+                type="text"
+                id="usuario"
+                name="usuario"
+                class="form-control"
+                placeholder="Digite seu usuário"
+                [(ngModel)]="usuario"
+                autocomplete="username"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="password-label">
+              <label for="senha" class="form-label">
+                Senha
+              </label>
+            </div>
+
+            <div class="input-wrapper">
+              <i class="bi bi-lock input-icon"></i>
+              <input
+                [type]="mostrarSenha ? 'text' : 'password'"
+                id="senha"
+                name="senha"
+                class="form-control"
+                placeholder="Digite sua senha"
+                [(ngModel)]="senha"
+                autocomplete="current-password"
+                required
+              />
+
+              <button
+                type="button"
+                class="toggle-password"
+                (click)="mostrarSenha = !mostrarSenha"
+                [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'"
+              >
+                <i [class]="mostrarSenha ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+          </div>
+
+          <div
+            *ngIf="erro"
+            class="alert alert-danger login-error"
+            role="alert"
+          >
+            <i class="bi bi-exclamation-circle me-2"></i>
+            {{ erro }}
+          </div>
+
+          <button type="submit" class="btn btn-login w-100">
+            Entrar no sistema
+            <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </form>
+
+        <div class="login-security">
+          <i class="bi bi-shield-lock"></i>
+          <span>Acesso exclusivo para usuários autorizados</span>
+        </div>
+
+        <footer class="login-footer">
+          <span>© Museu da Música de Itu</span>
+          <span>Sistema de Gestão</span>
+        </footer>
+
+      </div>
+    </main>
+
+  </div>
+</div>

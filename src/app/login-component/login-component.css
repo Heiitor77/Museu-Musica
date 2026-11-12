@@ -1,0 +1,350 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;500;600;700&display=swap');
+
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  color: #20263a;
+}
+
+.login-page {
+  min-height: 100vh;
+  background: #fff;
+}
+
+/* Painel visual */
+
+.brand-panel {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  color: #fff;
+  background:
+    linear-gradient(
+      110deg,
+      rgba(5, 18, 68, 0.96) 0%,
+      rgba(9, 39, 169, 0.86) 60%,
+      rgba(9, 39, 169, 0.68) 100%
+    ),
+    url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1800&q=85')
+    center / cover no-repeat;
+}
+
+.brand-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(197, 158, 69, 0.18),
+      transparent 35%
+    );
+  pointer-events: none;
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 64px 8%;
+}
+
+.museum-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgba(197, 158, 69, 0.75);
+  border-radius: 16px;
+  color: #e0bd6d;
+  font-size: 28px;
+}
+
+.brand-eyebrow {
+  color: #e0bd6d;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.museum-brand h1 {
+  margin: 10px 0 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 600;
+  line-height: 1.03;
+  letter-spacing: -1px;
+}
+
+.brand-description {
+  max-width: 440px;
+  margin: auto 0;
+  padding: 80px 0;
+}
+
+.gold-line {
+  display: block;
+  width: 52px;
+  height: 3px;
+  margin-bottom: 26px;
+  background: #c59e45;
+  border-radius: 3px;
+}
+
+.brand-description p {
+  max-width: 400px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: clamp(25px, 2.5vw, 36px);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.brand-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+}
+
+/* Formulário */
+
+.login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 56px 40px;
+  background: #fff;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 410px;
+}
+
+.login-heading {
+  margin-bottom: 38px;
+}
+
+.section-label {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #a5812e;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.login-heading h2 {
+  margin: 0 0 14px;
+  color: #17234c;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: clamp(32px, 3vw, 39px);
+  font-weight: 600;
+  letter-spacing: -0.6px;
+}
+
+.login-heading p {
+  margin: 0;
+  color: #747b8c;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.form-label {
+  margin-bottom: 10px;
+  color: #30384d;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  z-index: 2;
+  color: #8b91a1;
+  font-size: 17px;
+  pointer-events: none;
+}
+
+.input-wrapper .form-control {
+  min-height: 53px;
+  padding: 12px 46px;
+  border: 1px solid #e1e5ee;
+  border-radius: 10px;
+  background-color: #fbfcfe;
+  color: #20263a;
+  font-size: 14px;
+  box-shadow: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-wrapper .form-control::placeholder {
+  color: #a0a6b3;
+}
+
+.input-wrapper .form-control:focus {
+  border-color: #0927a9;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(9, 39, 169, 0.08);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border: 0;
+  background: transparent;
+  color: #858b9a;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.toggle-password:hover {
+  color: #0927a9;
+}
+
+.btn-login {
+  min-height: 53px;
+  margin-top: 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #0927a9;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-login:hover {
+  background: #071e87;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(9, 39, 169, 0.16);
+  transform: translateY(-1px);
+}
+
+.btn-login:focus-visible {
+  outline: 3px solid rgba(197, 158, 69, 0.6);
+  outline-offset: 3px;
+}
+
+.login-error {
+  margin-top: 18px;
+  margin-bottom: 0;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.login-security {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 28px;
+  color: #858b99;
+  font-size: 11px;
+}
+
+.login-security i {
+  color: #a5812e;
+  font-size: 15px;
+}
+
+.login-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 54px;
+  padding-top: 20px;
+  border-top: 1px solid #edf0f5;
+  color: #969baa;
+  font-size: 11px;
+}
+
+/* Marca compacta em telas menores */
+
+.mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 56px;
+  color: #17234c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.mobile-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  border-radius: 12px;
+  background: #0927a9;
+  color: #e0bd6d;
+  font-size: 22px;
+}
+
+@media (max-width: 991.98px) {
+  .login-panel {
+    padding: 40px 28px;
+  }
+
+  .login-container {
+    max-width: 430px;
+  }
+
+  .login-footer {
+    margin-top: 42px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .login-panel {
+    align-items: flex-start;
+    padding: 32px 24px;
+  }
+
+  .mobile-brand {
+    margin-bottom: 46px;
+  }
+
+  .login-heading {
+    margin-bottom: 32px;
+  }
+
+  .login-heading h2 {
+    font-size: 34px;
+  }
+
+  .login-footer {
+    flex-wrap: wrap;
+    margin-top: 38px;
+  }
+}

@@ -1,0 +1,599 @@
+
+<div class="pagina-movimentacoes">
+
+  <!-- MENU SUPERIOR -->
+  <header class="topbar">
+    <div class="topbar-conteudo">
+
+      <a routerLink="/dashboard" class="marca">
+        <span class="marca-simbolo">
+          <i class="bi bi-music-note-beamed"></i>
+        </span>
+
+        <span>
+          <strong>Museu da Música</strong>
+          <small>GESTÃO DE ACERVO</small>
+        </span>
+      </a>
+
+      <nav class="menu-principal">
+        <a routerLink="/dashboard" class="nav-link">
+          Visão geral
+        </a>
+
+        <a routerLink="/dashboard" class="nav-link">
+          Acervo
+        </a>
+
+        <a routerLink="/movimentacoes" class="nav-link ativo">
+          Movimentações
+        </a>
+
+        <a href="#" class="nav-link" (click)="$event.preventDefault()">
+          Exposições
+        </a>
+
+        <a href="#" class="nav-link" (click)="$event.preventDefault()">
+          Relatórios
+        </a>
+      </nav>
+
+      <div class="usuario-menu">
+        <div class="usuario-avatar">
+          {{ usuario.nome.charAt(0).toUpperCase() }}
+        </div>
+
+        <div class="usuario-info">
+          <strong>{{ usuario.nome }}</strong>
+          <small>{{ usuario.cargo }}</small>
+        </div>
+
+        <button
+          type="button"
+          class="btn-sair"
+          title="Sair"
+          (click)="sair()"
+        >
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- CONTEÚDO -->
+  <main class="conteudo">
+
+    <section class="titulo-pagina">
+      <div>
+        <span class="subtitulo">CONTROLE DO ACERVO</span>
+        <h1>Movimentações</h1>
+        <p>
+          Gerencie as saídas, transferências e retornos das peças do museu.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="btn-nova-movimentacao"
+        (click)="abrirFormulario()"
+      >
+        <i class="bi bi-plus-lg"></i>
+        Nova movimentação
+      </button>
+    </section>
+
+    <!-- INDICADORES -->
+    <section class="indicadores">
+
+      <article class="indicador-card">
+        <div class="indicador-icone azul">
+          <i class="bi bi-arrow-left-right"></i>
+        </div>
+        <div>
+          <span>Total de movimentações</span>
+          <strong>{{ totalMovimentacoes }}</strong>
+        </div>
+      </article>
+
+      <article class="indicador-card">
+        <div class="indicador-icone dourado">
+          <i class="bi bi-box-arrow-up-right"></i>
+        </div>
+        <div>
+          <span>Saídas registradas</span>
+          <strong>{{ totalSaidas }}</strong>
+        </div>
+      </article>
+
+      <article class="indicador-card">
+        <div class="indicador-icone laranja">
+          <i class="bi bi-clock-history"></i>
+        </div>
+        <div>
+          <span>Em andamento</span>
+          <strong>{{ totalEmAndamento }}</strong>
+        </div>
+      </article>
+
+      <article class="indicador-card">
+        <div class="indicador-icone verde">
+          <i class="bi bi-check-circle"></i>
+        </div>
+        <div>
+          <span>Concluídas</span>
+          <strong>{{ totalConcluidas }}</strong>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- HISTÓRICO -->
+    <section class="historico-card">
+
+      <div class="historico-cabecalho">
+        <div>
+          <h2>Histórico de movimentações</h2>
+          <p>Acompanhe os registros de saída e retorno das peças.</p>
+        </div>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="filtros">
+
+        <div class="campo-pesquisa">
+          <i class="bi bi-search"></i>
+
+          <input
+            type="text"
+            [(ngModel)]="pesquisa"
+            placeholder="Pesquisar código, peça, destino ou responsável..."
+          >
+        </div>
+
+        <select
+          class="form-select filtro-select"
+          [(ngModel)]="filtroTipo"
+        >
+          <option value="Todos">Todos os tipos</option>
+          <option value="Exposição">Exposição</option>
+          <option value="Empréstimo">Empréstimo</option>
+          <option value="Restauração">Restauração</option>
+          <option value="Manutenção">Manutenção</option>
+          <option value="Outro">Outro</option>
+        </select>
+
+        <select
+          class="form-select filtro-select"
+          [(ngModel)]="filtroSituacao"
+        >
+          <option value="Todas">Todas as situações</option>
+          <option value="Em andamento">Em andamento</option>
+          <option value="Concluída">Concluída</option>
+        </select>
+
+      </div>
+
+      <!-- TABELA -->
+      <div class="tabela-container">
+
+        <table class="tabela-movimentacoes">
+
+          <thead>
+            <tr>
+              <th>CÓDIGO</th>
+              <th>MOVIMENTAÇÃO</th>
+              <th>DESTINO</th>
+              <th>RESPONSÁVEL</th>
+              <th>SAÍDA</th>
+              <th>RETORNO PREVISTO</th>
+              <th>SITUAÇÃO</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let mov of movimentacoesFiltradas">
+
+              <td>
+                <strong class="codigo">{{ mov.codigo }}</strong>
+              </td>
+
+              <td>
+                <strong>{{ mov.tipo }}</strong>
+                <small class="texto-secundario">
+                  {{ mov.itens.length }}
+                  {{ mov.itens.length === 1 ? 'peça' : 'peças' }}
+                </small>
+              </td>
+
+              <td>{{ mov.destino }}</td>
+
+              <td>{{ mov.responsavel }}</td>
+
+              <td>{{ mov.dataSaida | date:'dd/MM/yyyy':'':'pt-BR' }}</td>
+
+              <td>
+                <span *ngIf="mov.dataRetornoPrevista">
+                  {{ mov.dataRetornoPrevista | date:'dd/MM/yyyy':'':'pt-BR' }}
+                </span>
+                <span *ngIf="!mov.dataRetornoPrevista">Não definida</span>
+              </td>
+
+              <td>
+                <span
+                  class="status"
+                  [class.status-andamento]="mov.situacao === 'Em andamento'"
+                  [class.status-concluida]="mov.situacao === 'Concluída'"
+                >
+                  {{ mov.situacao }}
+                </span>
+              </td>
+
+              <td>
+                <button
+                  *ngIf="mov.situacao === 'Em andamento'"
+                  type="button"
+                  class="btn-retorno"
+                  (click)="abrirRetorno(mov)"
+                >
+                  Registrar retorno
+                </button>
+
+                <span
+                  *ngIf="mov.situacao === 'Concluída'"
+                  class="retorno-concluido"
+                >
+                  <i class="bi bi-check2"></i>
+                  Finalizada
+                </span>
+              </td>
+
+            </tr>
+
+            <tr *ngIf="movimentacoesFiltradas.length === 0">
+              <td colspan="8">
+                <div class="estado-vazio">
+                  <i class="bi bi-arrow-left-right"></i>
+                  <h3>Nenhuma movimentação encontrada</h3>
+                  <p>
+                    Não há registros para os filtros selecionados.
+                    Comece registrando uma nova movimentação.
+                  </p>
+
+                  <button
+                    type="button"
+                    class="btn-nova-movimentacao"
+                    (click)="abrirFormulario()"
+                  >
+                    <i class="bi bi-plus-lg"></i>
+                    Registrar movimentação
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- POPUP DE NOVA MOVIMENTAÇÃO -->
+  <div
+    class="modal-overlay"
+    *ngIf="mostrarFormulario"
+    (click)="cancelarCadastro()"
+  >
+
+    <section
+      class="modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="tituloModal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <header class="modal-header">
+        <div>
+          <span class="modal-etiqueta">CONTROLE DO ACERVO</span>
+          <h2 id="tituloModal">Nova movimentação</h2>
+          <p>Informe os dados e selecione as peças que serão movimentadas.</p>
+        </div>
+
+        <button
+          type="button"
+          class="modal-fechar"
+          (click)="cancelarCadastro()"
+        >
+          &times;
+        </button>
+      </header>
+
+      <form #formMovimentacao="ngForm"
+        (ngSubmit)="adicionarMovimentacao()">
+
+        <h3 class="secao-formulario">Informações da movimentação</h3>
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label class="form-label">Tipo de movimentação *</label>
+
+            <select
+              class="form-select"
+              name="tipo"
+              [(ngModel)]="novaMovimentacao.tipo"
+              required
+            >
+              <option value="" disabled>Selecione</option>
+              <option value="Exposição">Exposição</option>
+              <option value="Empréstimo">Empréstimo</option>
+              <option value="Restauração">Restauração</option>
+              <option value="Manutenção">Manutenção</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Destino *</label>
+
+            <input
+              type="text"
+              class="form-control"
+              name="destino"
+              [(ngModel)]="novaMovimentacao.destino"
+              placeholder="Ex.: Museu parceiro"
+              required
+            >
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Responsável *</label>
+
+            <input
+              type="text"
+              class="form-control"
+              name="responsavel"
+              [(ngModel)]="novaMovimentacao.responsavel"
+              placeholder="Nome do responsável"
+              required
+            >
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Data de saída *</label>
+
+            <input
+              type="date"
+              class="form-control"
+              name="dataSaida"
+              [(ngModel)]="novaMovimentacao.dataSaida"
+              required
+            >
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Retorno previsto</label>
+
+            <input
+              type="date"
+              class="form-control"
+              name="dataRetornoPrevista"
+              [(ngModel)]="novaMovimentacao.dataRetornoPrevista"
+              [min]="novaMovimentacao.dataSaida"
+            >
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">Observações</label>
+
+            <textarea
+              class="form-control"
+              rows="2"
+              name="observacao"
+              [(ngModel)]="novaMovimentacao.observacao"
+              placeholder="Informações adicionais..."
+            ></textarea>
+          </div>
+
+        </div>
+
+        <div class="divisor-formulario"></div>
+
+        <div class="selecao-cabecalho">
+          <div>
+            <h3 class="secao-formulario">Peças da movimentação *</h3>
+            <p>Selecione as peças disponíveis no museu.</p>
+          </div>
+
+          <span class="contador-selecao">
+            {{ novaMovimentacao.itensSelecionados.length }} selecionadas
+          </span>
+        </div>
+
+        <div class="lista-itens">
+
+          <div
+            class="item-selecao"
+            *ngFor="let item of itensDisponiveis"
+          >
+
+            <label class="item-checkbox">
+
+              <input
+                type="checkbox"
+                [checked]="itemSelecionado(item.id)"
+                (change)="alternarItem(
+                  item.id,
+                  $any($event.target).checked
+                )"
+              >
+
+              <span class="checkbox-personalizado"></span>
+
+              <span class="item-dados">
+                <strong>{{ item.nome }}</strong>
+                <small>
+                  {{ item.categoria }} · {{ item.localizacao }}
+                </small>
+              </span>
+
+            </label>
+
+            <div
+              class="estado-saida"
+              *ngIf="itemSelecionado(item.id)"
+            >
+              <label [for]="'estado-' + item.id">
+                Estado na saída
+              </label>
+
+              <select
+                [id]="'estado-' + item.id"
+                class="form-select form-select-sm"
+                [ngModel]="novaMovimentacao.estadosSaida[item.id]"
+                (ngModelChange)="novaMovimentacao.estadosSaida[item.id] = $event"
+                [ngModelOptions]="{standalone: true}"
+              >
+                <option
+                  *ngFor="let estado of estadosConservacao"
+                  [value]="estado"
+                >
+                  {{ estado }}
+                </option>
+              </select>
+            </div>
+
+          </div>
+
+          <div
+            class="itens-vazios"
+            *ngIf="itensDisponiveis.length === 0"
+          >
+            <i class="bi bi-inbox"></i>
+            <p>Não existem peças disponíveis para movimentação.</p>
+            <small>
+              Cadastre peças no acervo antes de registrar uma saída.
+            </small>
+          </div>
+
+        </div>
+
+        <footer class="modal-acoes">
+          <button
+            type="button"
+            class="btn btn-light"
+            (click)="cancelarCadastro()"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="
+              formMovimentacao.invalid ||
+              novaMovimentacao.itensSelecionados.length === 0
+            "
+          >
+            <i class="bi bi-check2 me-2"></i>
+            Registrar movimentação
+          </button>
+        </footer>
+
+      </form>
+
+    </section>
+
+  </div>
+
+  <!-- POPUP DE RETORNO -->
+  <div
+    class="modal-overlay"
+    *ngIf="mostrarRetorno && movimentacaoSelecionada"
+    (click)="cancelarRetorno()"
+  >
+
+    <section
+      class="modal-card modal-retorno"
+      role="dialog"
+      aria-modal="true"
+      (click)="$event.stopPropagation()"
+    >
+
+      <header class="modal-header">
+        <div>
+          <span class="modal-etiqueta">FINALIZAÇÃO</span>
+          <h2>Registrar retorno</h2>
+          <p>
+            {{ movimentacaoSelecionada.codigo }} ·
+            {{ movimentacaoSelecionada.destino }}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="modal-fechar"
+          (click)="cancelarRetorno()"
+        >
+          &times;
+        </button>
+      </header>
+
+      <p class="texto-retorno">
+        Confira a condição das peças no retorno.
+      </p>
+
+      <div
+        class="retorno-item"
+        *ngFor="let item of movimentacaoSelecionada.itens"
+      >
+        <div>
+          <strong>{{ item.nomeItem }}</strong>
+          <small>Estado na saída: {{ item.estadoNaSaida }}</small>
+        </div>
+
+        <select
+          class="form-select"
+          [(ngModel)]="item.estadoNoRetorno"
+          [ngModelOptions]="{standalone: true}"
+        >
+          <option value="">Manter estado anterior</option>
+          <option
+            *ngFor="let estado of estadosConservacao"
+            [value]="estado"
+          >
+            {{ estado }}
+          </option>
+        </select>
+      </div>
+
+      <div class="modal-acoes">
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="cancelarRetorno()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="registrarRetorno()"
+        >
+          <i class="bi bi-check2 me-2"></i>
+          Confirmar retorno
+        </button>
+      </div>
+
+    </section>
+
+  </div>
+
+</div>
